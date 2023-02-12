@@ -33,9 +33,9 @@ class ConsoleInterface(
             }
 
             var opponentMove: Move? = null
-            getOpponentMove@ while(opponentMove == null) {
+            getOpponentMove@ while(suggestedMoveAndState.second.isInProgress && opponentMove == null) {
                 try {
-                    println("Type your opponent's move (<crab#> <direction>):")
+                    println("Type your opponent's Θ move (<crab#> <direction>):")
                     opponentMove = readln().split(" ").let {
                         Move(Crab(opponent, it[0].toUInt()), Move.Direction.valueOfCode(it[1]))
                     }
