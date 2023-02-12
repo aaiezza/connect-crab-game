@@ -55,7 +55,7 @@ class MoveApplier(
                     .filter { it.row == indexedCrabToMove.row && it.col < indexedCrabToMove.col }
                     .maxByOrNull { it.col }
                 require(
-                    closestCrab?.let{ indexedCrabToMove.col - 1 > it.col } ?: (indexedCrabToMove.col < 0)
+                    closestCrab?.let{ indexedCrabToMove.col - 1 > it.col } ?: (indexedCrabToMove.col > 0)
                 ) { "Crab ${move.crab} cannot move ${move.direction}" }
                 val newCol = if(closestCrab == null) 0 else closestCrab.col + 1
 

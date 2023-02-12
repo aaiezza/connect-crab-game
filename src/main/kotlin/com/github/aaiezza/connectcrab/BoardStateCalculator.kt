@@ -3,6 +3,9 @@ package com.github.aaiezza.connectcrab
 class BoardStateCalculator(
     private val moveFinder: MoveFinder
 ) {
+    operator fun invoke(board: ConnectCrabBoard, playerId: String) =
+        invoke(board, board.indexedCrabs().first { it.crab.player.id == playerId }.crab.player)
+
     operator fun invoke(board: ConnectCrabBoard, currentPlayer: Player): BoardState {
         val players = board.indexedCrabs().map { it.crab.player }.distinct()
         val winner = players.firstOrNull {  player ->

@@ -23,7 +23,7 @@ class ConnectCrabBoardTests {
     fun `should make move and yield new board`() {
         println(boardPrinter.invoke(subject))
 
-        val moves: List<Move> = moveFinder(subject, Player("Ψ"))
+        val moves: List<Move> = moveFinder(subject,"Ψ")
 
         moves.forEach { println(it) }
         println()
