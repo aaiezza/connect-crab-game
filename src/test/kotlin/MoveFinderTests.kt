@@ -1,6 +1,5 @@
 import assertk.assertThat
 import assertk.assertions.containsExactly
-import assertk.assertions.isTrue
 import com.github.aaiezza.connectcrab.*
 import com.github.aaiezza.connectcrab.Move.Direction.*
 import org.junit.jupiter.api.BeforeEach
@@ -18,8 +17,8 @@ class MoveFinderTests {
     fun `should find expected possible moves`() {
         val b = MutableList(6) { MutableList<Crab?>(6) { null } }
 
-        val Θ = Player("Θ")
-        val Ψ = Player("Ψ")
+        val Θ = PlayerId("Θ")
+        val Ψ = PlayerId("Ψ")
 
         b[0][0] = Crab(Θ, 1u)
         b[0][2] = Crab(Ψ, 1u)

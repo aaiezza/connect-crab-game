@@ -13,9 +13,9 @@ class Solver(
     var board: ConnectCrabBoard = initialBoard
         private set
 
-    fun acceptOpponentMoveAndSuggestMove(opponentMove: Move, nextPlayer: Player): Pair<Move?, BoardState> {
+    fun acceptOpponentMoveAndSuggestMove(opponentMove: Move, nextPlayerId: PlayerId): Pair<Move?, BoardState> {
         board += opponentMove
-        return nextMoveFor(nextPlayer)
+        return nextMoveFor(nextPlayerId)
     }
 
     fun applyMove(move: Move): ConnectCrabBoard {
@@ -23,31 +23,31 @@ class Solver(
         return board
     }
 
-    fun nextMoveFor(player: Player): Pair<Move?, BoardState> {
-        val boardState = boardStateCalculator.invoke(board, player)
+    fun nextMoveFor(playerId: PlayerId): Pair<Move?, BoardState> {
+        val boardState = boardStateCalculator.invoke(board, playerId)
 
         if (boardState.isTerminalState) {
             return Pair(null, boardState)
         }
 
-        val possibleMoves = moveFinder(board, player)
+        val possibleMoves = moveFinder(board, playerId)
         var move: Move?
 
         // If you can win in one move, take that move!
         move = possibleMoves.firstOrNull {
-            boardStateCalculator(board + it, player)?.winningPlayer == player
+            boardStateCalculator(board + it, playerId)?.winningPlayerId == playerId
         }
 
         // If you can stop your opponent from winning, take that move!
         if (move == null) {
-            val opponentPlayer = board.indexedCrabs().first { it.crab.player != player }.crab.player
+            val opponentPlayer = board.indexedCrabs().first { it.crab.playerId != playerId }.crab.playerId
             moveFinder(board, opponentPlayer).firstOrNull {
-                boardStateCalculator(board + it, player)?.winningPlayer == opponentPlayer
+                boardStateCalculator(board + it, playerId)?.winningPlayerId == opponentPlayer
             }?.also {
                 move = possibleMoves.firstOrNull { nextMove ->
                     val nextBoard = board + nextMove
                     moveFinder(nextBoard, opponentPlayer).none {
-                        boardStateCalculator(nextBoard + it, player)?.winningPlayer == opponentPlayer
+                        boardStateCalculator(nextBoard + it, playerId)?.winningPlayerId == opponentPlayer
                     }
                 }
             }
@@ -55,7 +55,7 @@ class Solver(
 
         // Choose a random move
         if (move == null)
-            move = moveFinder.invoke(board, player).shuffled().first()
+            move = moveFinder.invoke(board, playerId).shuffled().first()
 
         return Pair(move, boardState)
     }

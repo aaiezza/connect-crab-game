@@ -31,8 +31,8 @@ data class ConnectCrabBoard constructor(
         private fun createInitial6by6Board(): List<List<Crab?>> {
             val board = MutableList(6) { MutableList<Crab?>(6) { null } }
 
-            val Θ = Player("Θ")
-            val Ψ = Player("Ψ")
+            val Θ = PlayerId("Θ")
+            val Ψ = PlayerId("Ψ")
 
             board[0][0] = Crab(Θ, 1u)
             board[0][2] = Crab(Ψ, 1u)

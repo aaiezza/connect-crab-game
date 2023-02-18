@@ -11,7 +11,7 @@ class MoveApplier(
 ) {
     operator fun invoke(board: ConnectCrabBoard, move: Move): ConnectCrabBoard {
         require(
-            !boardStateCalculator(board, move.crab.player).isTerminalState
+            !boardStateCalculator(board, move.crab.playerId).isTerminalState
         ) { "Board state is terminal, so a move cannot be applied." }
 
         val indexedCrabToMove = board.indexedCrabs().first { it.crab == move.crab }

@@ -9,8 +9,8 @@ class BoardStateCalculatorTests {
     private lateinit var subject: BoardStateCalculator
 
     private val moveFinder = MoveFinder()
-    private val Θ = Player("Θ")
-    private val Ψ = Player("Ψ")
+    private val Θ = PlayerId("Θ")
+    private val Ψ = PlayerId("Ψ")
 
     @BeforeEach
     fun setUp() {

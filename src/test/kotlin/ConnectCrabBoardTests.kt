@@ -1,7 +1,6 @@
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
-import assertk.assertions.isNotZero
 import com.github.aaiezza.connectcrab.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -35,7 +34,7 @@ class ConnectCrabBoardTests {
         assertThat(response).isNotNull()
         println(boardPrinter.invoke(response))
 
-        val boardState = boardStateCalculator.invoke(response, Player("Θ"))
+        val boardState = boardStateCalculator.invoke(response, PlayerId("Θ"))
         println(boardState)
     }
 }

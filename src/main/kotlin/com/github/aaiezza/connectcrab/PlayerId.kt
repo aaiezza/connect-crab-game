@@ -1,5 +1,5 @@
 package com.github.aaiezza.connectcrab
 
-data class Player(val id: String) {
+data class PlayerId(val id: String) {
     override fun toString() = id
 }

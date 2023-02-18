@@ -2,11 +2,11 @@ package com.github.aaiezza.connectcrab
 
 class MoveFinder {
     operator fun invoke(board: ConnectCrabBoard, playerId: String) =
-        invoke(board, board.indexedCrabs().first { it.crab.player.id == playerId }.crab.player)
+        invoke(board, board.indexedCrabs().first { it.crab.playerId.id == playerId }.crab.playerId)
 
-    operator fun invoke(board: ConnectCrabBoard, player: Player): List<Move> {
+    operator fun invoke(board: ConnectCrabBoard, playerId: PlayerId): List<Move> {
         return board.indexedCrabs()
-            .filter { it.crab.player == player }
+            .filter { it.crab.playerId == playerId }
             .sortedBy { it.crab.id }
             .flatMap { crab ->
                 Move.Direction.values().mapNotNull { dir ->

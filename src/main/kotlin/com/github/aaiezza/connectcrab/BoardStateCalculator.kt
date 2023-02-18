@@ -4,13 +4,13 @@ class BoardStateCalculator(
     private val moveFinder: MoveFinder
 ) {
     operator fun invoke(board: ConnectCrabBoard, playerId: String) =
-        invoke(board, board.indexedCrabs().first { it.crab.player.id == playerId }.crab.player)
+        invoke(board, board.indexedCrabs().first { it.crab.playerId.id == playerId }.crab.playerId)
 
-    operator fun invoke(board: ConnectCrabBoard, currentPlayer: Player): BoardState {
-        val players = board.indexedCrabs().map { it.crab.player }.distinct()
+    operator fun invoke(board: ConnectCrabBoard, currentPlayerId: PlayerId): BoardState {
+        val players = board.indexedCrabs().map { it.crab.playerId }.distinct()
         val winner = players.firstOrNull {  player ->
             val winningColFoursome = board.indexedCrabs()
-                .filter { it.crab.player == player }
+                .filter { it.crab.playerId == player }
                 .groupBy { it.col }
                 .filterValues { it.size >= 4 }
                 .mapNotNull { colCrabs ->
@@ -25,7 +25,7 @@ class BoardStateCalculator(
                 }
 
             val winningRowFoursome = board.indexedCrabs()
-                .filter { it.crab.player == player }
+                .filter { it.crab.playerId == player }
                 .groupBy { it.row }
                 .filterValues { it.size >= 4 }
                 .mapNotNull { rowCrabs ->
@@ -44,7 +44,7 @@ class BoardStateCalculator(
 
         return if (winner != null) {
             BoardState(winner)
-        } else if(moveFinder.invoke(board, currentPlayer).isEmpty()) {
+        } else if(moveFinder.invoke(board, currentPlayerId).isEmpty()) {
             BoardState(true)
         } else {
             BoardState(false)

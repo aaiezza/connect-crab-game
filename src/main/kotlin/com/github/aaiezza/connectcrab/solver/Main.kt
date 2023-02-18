@@ -1,7 +1,6 @@
 package com.github.aaiezza.connectcrab.solver
 
 import com.github.aaiezza.connectcrab.BoardPrinter
-import com.github.aaiezza.connectcrab.BoardState
 import com.github.aaiezza.connectcrab.Crab
 import com.github.aaiezza.connectcrab.Move
 
@@ -17,8 +16,8 @@ class ConsoleInterface(
     private val solver: Solver = Solver()
 ) {
     fun start() {
-        val player = solver.board.indexedCrabs().first { it.crab.player.id == "Ψ" }.crab.player
-        val opponent = solver.board.indexedCrabs().first { it.crab.player.id == "Θ" }.crab.player
+        val player = solver.board.indexedCrabs().first { it.crab.playerId.id == "Ψ" }.crab.playerId
+        val opponent = solver.board.indexedCrabs().first { it.crab.playerId.id == "Θ" }.crab.playerId
         println("Assuming the default starting board and that you will go first as player ${player}.")
 
         var suggestedMoveAndState = solver.nextMoveFor(player)
