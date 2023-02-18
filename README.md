@@ -39,18 +39,40 @@ You always play first in the game, so an example of possible moves involve any t
 * `Ψ6` up (_4 spaces_)
 * `Ψ6` right (_1 space_)
 
-As you can see, each of the 6 crabs the user has in the inital board set up has 2 moves it can make for a total of 12 possible leading moves. (Many of which are isometrically identical accounting for the rotation of the board, but this isn't that important to the puzzle, it is just an observation.)
+As you can see, each of the 6 crabs the user has in the initial board set up has 2 moves it can make for a total of 12 possible leading moves. (Many of which are isometrically identical accounting for the rotation of the board, but this isn't that important to the puzzle, it is just an observation.)
 
 Of course, some of these moves, especially as the game progresses, are more advantageous than others as they get someone closer to victory.
 
+## Current Solver Implementation
+
+The following is the strategy the existing solver will employ to determine its next move suggestion:
+
+```mermaid
+---
+title: Solver Logic
+---
+flowchart TD
+    0[/Game is in terminal state?/]
+    0 -->|Yes| 0F[/<em>throw exception</em>\]
+    0 -->|No| 0S[Retrieve all possible moves]
+    0S --> 1[/Move exists that results in victory?/]
+    1 -->|Yes| 1S[/Take it\]
+    1 -->|No| 2[/Move exists that blocks an opponent's victory?/]
+    2 -->|Yes| 1S
+    2 -->|No| 3[Randomly choose an available move]
+    3 --> 1S
+```
+
 ## How to use
 
-To use the solver, run it on the command line.
+To use the solver, build the jar, and run it on the command line.
 
 ```sh
-java -jar connect-crab-solver.jar
+mvn clean package
+java -jar target/connect-crab-solver.jar
 ```
-* Perform the first move that the solver recommends
+
+* Performs the first move that the solver recommends
     * Perform the move that is told to you from the tool exactly, because this iteration of the tool does not account for mistakes. There is no correcting the board configuration in the event of a mis-input move into the game.
 * Then, input the move the opponent made to progress the state of the board and prompt the solver to calculate the next optimal move.
     * A move input requires identifying the piece number and the direction in which the piece should move separated by a space:
@@ -59,4 +81,8 @@ java -jar connect-crab-solver.jar
         ```
 * Repeat until victory! (Or until failure, in which case there is work to do on the solver…)
 
+### Note on performance
 
+It should be noted, I didn't work very hard on the artificial intelligence for this tool.
+However, it was powerful enough for me to win on my first try.
+Feel free to submit suggestions that would improve the performance of the solver.

@@ -16,7 +16,6 @@ fun main(args: Array<String>) {
 class ConsoleInterface(
     private val solver: Solver = Solver()
 ) {
-
     fun start() {
         val player = solver.board.indexedCrabs().first { it.crab.player.id == "Ψ" }.crab.player
         val opponent = solver.board.indexedCrabs().first { it.crab.player.id == "Θ" }.crab.player
