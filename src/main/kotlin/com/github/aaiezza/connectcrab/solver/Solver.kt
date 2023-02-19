@@ -55,7 +55,7 @@ class Solver(
 
         // Choose a random move
         if (move == null)
-            move = moveFinder.invoke(board, playerId).shuffled().first()
+            move = possibleMoves.shuffled().first()
 
         return Pair(move, boardState)
     }

@@ -50,4 +50,9 @@ class BoardStateCalculator(
             BoardState(false)
         }
     }
+
+    companion object {
+        fun calculateState(board: ConnectCrabBoard, currentPlayerId: PlayerId) =
+            BoardStateCalculator(MoveFinder()).invoke(board, currentPlayerId)
+    }
 }
