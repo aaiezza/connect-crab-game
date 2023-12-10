@@ -7,8 +7,8 @@ class BoardStateCalculator(
         invoke(board, board.indexedCrabs().first { it.crab.playerId.id == playerId }.crab.playerId)
 
     operator fun invoke(board: ConnectCrabBoard, currentPlayerId: PlayerId): BoardState {
-        val players = board.indexedCrabs().map { it.crab.playerId }.distinct()
-        val winner = players.firstOrNull {  player ->
+        val playerIds = board.indexedCrabs().map { it.crab.playerId }.distinct()
+        val winner = playerIds.firstOrNull { player ->
             val winningColFoursome = getFoursome(board, player, ConnectCrabBoard.Companion.IndexedCrab::col, ConnectCrabBoard.Companion.IndexedCrab::row)
 
             val winningRowFoursome = getFoursome(board, player, ConnectCrabBoard.Companion.IndexedCrab::row, ConnectCrabBoard.Companion.IndexedCrab::col)
@@ -19,29 +19,30 @@ class BoardStateCalculator(
         return if (winner != null) {
             BoardState(winner)
         } else if(moveFinder.invoke(board, currentPlayerId).isEmpty()) {
-            BoardState(true)
+            BoardState(isDraw = true)
         } else {
-            BoardState(false)
+            BoardState(isDraw = false)
         }
     }
 
     private fun getFoursome(
         board: ConnectCrabBoard,
-        player: PlayerId,
+        playerId: PlayerId,
         groupBy: (ConnectCrabBoard.Companion.IndexedCrab) -> Int,
         by: (ConnectCrabBoard.Companion.IndexedCrab) -> Int):
             List<List<ConnectCrabBoard.Companion.IndexedCrab>> =
         board.indexedCrabs()
-            .filter { it.crab.playerId == player }
-            .groupBy { groupBy }
+            .filter { it.crab.playerId == playerId }
+            .groupBy(groupBy)
             .filterValues { it.size >= 4 }
-            .mapNotNull { rowCrabs ->
-                rowCrabs.value
+            .mapNotNull { alignedCrabs ->
+                alignedCrabs.value
                     .sortedBy { by(it) }
+                    .reversed()
                     .windowed(4, 1)
                     .mapNotNull { foursome ->
                         if (foursome.windowed(2, 1)
-                                .sumOf { by(it[1]) - by(it[0]) } == 3
+                                .sumOf { by(it[0]) - by(it[1]) } == 3
                         ) foursome else null
                     }.firstOrNull { it.isNotEmpty() }
             }
