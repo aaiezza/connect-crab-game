@@ -6,7 +6,7 @@
 
     <artifactId>connect-crab-game</artifactId>
     <groupId>io.github.aaiezza</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>connect-crab-game</name>
