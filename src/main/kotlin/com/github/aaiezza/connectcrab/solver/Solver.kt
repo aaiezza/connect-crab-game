@@ -35,19 +35,19 @@ class Solver(
 
         // If you can win in one move, take that move!
         move = possibleMoves.firstOrNull {
-            boardStateCalculator(board + it, playerId)?.winningPlayerId == playerId
+            boardStateCalculator(board + it, playerId).winningPlayerId == playerId
         }
 
         // If you can stop your opponent from winning, take that move!
         if (move == null) {
             val opponentPlayer = board.indexedCrabs().first { it.crab.playerId != playerId }.crab.playerId
             moveFinder(board, opponentPlayer).firstOrNull {
-                boardStateCalculator(board + it, playerId)?.winningPlayerId == opponentPlayer
+                boardStateCalculator(board + it, playerId).winningPlayerId == opponentPlayer
             }?.also {
                 move = possibleMoves.firstOrNull { nextMove ->
                     val nextBoard = board + nextMove
                     moveFinder(nextBoard, opponentPlayer).none {
-                        boardStateCalculator(nextBoard + it, playerId)?.winningPlayerId == opponentPlayer
+                        boardStateCalculator(nextBoard + it, playerId).winningPlayerId == opponentPlayer
                     }
                 }
             }

@@ -9,35 +9,9 @@ class BoardStateCalculator(
     operator fun invoke(board: ConnectCrabBoard, currentPlayerId: PlayerId): BoardState {
         val players = board.indexedCrabs().map { it.crab.playerId }.distinct()
         val winner = players.firstOrNull {  player ->
-            val winningColFoursome = board.indexedCrabs()
-                .filter { it.crab.playerId == player }
-                .groupBy { it.col }
-                .filterValues { it.size >= 4 }
-                .mapNotNull { colCrabs ->
-                    colCrabs.value
-                        .sortedBy { it.row }
-                        .windowed(4, 1)
-                        .mapNotNull { foursome ->
-                            if (foursome.windowed(2, 1)
-                                .sumOf { it[1].row - it[0].row } == 3
-                            ) foursome else null
-                        }.firstOrNull { it.isNotEmpty() }
-                }
+            val winningColFoursome = getFoursome(board, player, ConnectCrabBoard.Companion.IndexedCrab::col, ConnectCrabBoard.Companion.IndexedCrab::row)
 
-            val winningRowFoursome = board.indexedCrabs()
-                .filter { it.crab.playerId == player }
-                .groupBy { it.row }
-                .filterValues { it.size >= 4 }
-                .mapNotNull { rowCrabs ->
-                    rowCrabs.value
-                        .sortedBy { it.col }
-                        .windowed(4, 1)
-                        .mapNotNull { foursome ->
-                            if (foursome.windowed(2, 1)
-                                    .sumOf { it[1].col - it[0].col } == 3
-                            ) foursome else null
-                        }.firstOrNull { it.isNotEmpty() }
-                }
+            val winningRowFoursome = getFoursome(board, player, ConnectCrabBoard.Companion.IndexedCrab::row, ConnectCrabBoard.Companion.IndexedCrab::col)
 
             winningColFoursome.isNotEmpty() || winningRowFoursome.isNotEmpty()
         }
@@ -50,6 +24,27 @@ class BoardStateCalculator(
             BoardState(false)
         }
     }
+
+    private fun getFoursome(
+        board: ConnectCrabBoard,
+        player: PlayerId,
+        groupBy: (ConnectCrabBoard.Companion.IndexedCrab) -> Int,
+        by: (ConnectCrabBoard.Companion.IndexedCrab) -> Int):
+            List<List<ConnectCrabBoard.Companion.IndexedCrab>> =
+        board.indexedCrabs()
+            .filter { it.crab.playerId == player }
+            .groupBy { groupBy }
+            .filterValues { it.size >= 4 }
+            .mapNotNull { rowCrabs ->
+                rowCrabs.value
+                    .sortedBy { by(it) }
+                    .windowed(4, 1)
+                    .mapNotNull { foursome ->
+                        if (foursome.windowed(2, 1)
+                                .sumOf { by(it[1]) - by(it[0]) } == 3
+                        ) foursome else null
+                    }.firstOrNull { it.isNotEmpty() }
+            }
 
     companion object {
         fun calculateState(board: ConnectCrabBoard, currentPlayerId: PlayerId) =

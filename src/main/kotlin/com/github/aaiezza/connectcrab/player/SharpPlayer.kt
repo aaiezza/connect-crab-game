@@ -22,12 +22,12 @@ class SharpPlayer(
         if (move == null) {
             val opponentPlayer = board.indexedCrabs().first { it.crab.playerId != this.id }.crab.playerId
             moveFinder(board, opponentPlayer).firstOrNull {
-                boardStateCalculator(board + it, this.id)?.winningPlayerId == opponentPlayer
+                boardStateCalculator(board + it, this.id).winningPlayerId == opponentPlayer
             }?.also {
                 move = possibleMoves.firstOrNull { nextMove ->
                     val nextBoard = board + nextMove
                     moveFinder(nextBoard, opponentPlayer).none {
-                        boardStateCalculator(nextBoard + it, this.id)?.winningPlayerId == opponentPlayer
+                        boardStateCalculator(nextBoard + it, this.id).winningPlayerId == opponentPlayer
                     }
                 }
             }

@@ -4,7 +4,7 @@ import com.github.aaiezza.connectcrab.BoardPrinter
 import com.github.aaiezza.connectcrab.Crab
 import com.github.aaiezza.connectcrab.Move
 
-fun main(args: Array<String>) {
+fun main() {
     val consoleInterface = ConsoleInterface()
 
     consoleInterface.start()
