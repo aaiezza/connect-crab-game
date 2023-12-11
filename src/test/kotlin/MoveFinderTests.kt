@@ -29,7 +29,7 @@ class MoveFinderTests {
 
         val board = ConnectCrabBoard(b)
 
-        BoardPrinter.print(board)
+        // BoardPrinter.print(board)
 
         val responseΨ = subject.invoke(board, Ψ)
 

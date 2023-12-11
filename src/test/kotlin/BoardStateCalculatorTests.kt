@@ -30,7 +30,7 @@ class BoardStateCalculatorTests {
 
         val board = ConnectCrabBoard(b)
 
-        BoardPrinter.print(board)
+        // BoardPrinter.print(board)
 
         val response = subject.invoke(board, Θ)
 
@@ -50,7 +50,7 @@ class BoardStateCalculatorTests {
 
         val board = ConnectCrabBoard(b)
 
-        BoardPrinter.print(board)
+        // BoardPrinter.print(board)
 
         val response = subject.invoke(board, Θ)
 
@@ -76,7 +76,7 @@ class BoardStateCalculatorTests {
 
         val board = ConnectCrabBoard(b)
 
-        BoardPrinter.print(board)
+        // BoardPrinter.print(board)
 
         val response = subject.invoke(board, Θ)
 
@@ -96,7 +96,7 @@ class BoardStateCalculatorTests {
 
         val board = ConnectCrabBoard(b)
 
-        BoardPrinter.print(board)
+        // BoardPrinter.print(board)
 
         val response = subject.invoke(board, Θ)
 

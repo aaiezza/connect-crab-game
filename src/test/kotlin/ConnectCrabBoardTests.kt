@@ -20,21 +20,21 @@ class ConnectCrabBoardTests {
 
     @Test
     fun `should make move and yield new board`() {
-        println(boardPrinter.invoke(subject))
+        // println(boardPrinter.invoke(subject))
 
         val moves: List<Move> = moveFinder(subject,"Ψ")
 
-        moves.forEach { println(it) }
-        println()
+        // moves.forEach { println(it) }
+        // println()
 
         assertThat(moves.size).isEqualTo(12)
 
         val response: ConnectCrabBoard = moveApplier(subject, moves.first())
 
         assertThat(response).isNotNull()
-        println(boardPrinter.invoke(response))
+        // println(boardPrinter.invoke(response))
 
-        val boardState = boardStateCalculator.invoke(response, PlayerId("Θ"))
-        println(boardState)
+        // val boardState = boardStateCalculator.invoke(response, PlayerId("Θ"))
+        // println(boardState)
     }
 }

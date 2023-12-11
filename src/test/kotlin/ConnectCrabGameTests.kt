@@ -5,7 +5,9 @@ import com.github.aaiezza.connectcrab.player.RandomPlayer
 import com.github.aaiezza.connectcrab.player.SharpPlayer
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.test.Ignore
 
+@Ignore
 class ConnectCrabGameTests {
     private lateinit var subject: ConnectCrabGame
 

@@ -15,7 +15,7 @@ class SharpPlayer(
 
         // If you can win in one move, take that move!
         move = possibleMoves.firstOrNull {
-            boardStateCalculator(board + it, this.id)?.winningPlayerId == this.id
+            boardStateCalculator(board + it, this.id).winningPlayerId == this.id
         }
 
         // If you can stop your opponent from winning, take that move!
